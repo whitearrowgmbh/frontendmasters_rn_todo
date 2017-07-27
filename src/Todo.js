@@ -35,7 +35,7 @@ class Todo extends Component {
 					<Text>add</Text>
 				</TouchableHighlight>
 				<View>
-					{this.state.todos.map(todo => <Text>{todo}</Text>)}
+					{this.state.todos.map((todo, i) => <Text key={i}>{todo}</Text>)}
 				</View>
 			</View>
 		);

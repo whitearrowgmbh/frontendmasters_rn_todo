@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import Todo from "./src/Todo";
+import Fancy from "./src/Fancy";
 
 export default class App extends React.Component {
     render()

@@ -5,7 +5,7 @@ import {
 	TextInput,
 	TouchableHighlight,
 	Dimensions,
-	StyleSheet
+	StyleSheet, Switch, TouchableOpacity
 } from 'react-native';
 
 
@@ -40,20 +40,25 @@ class Todo extends Component {
 	{
 		return (
 			<View style={styles.container}>
-				<TextInput
-					style={styles.textInput}
-					value={this.state.newTodo}
-					onChangeText={(text) => this.setState({ newTodo: text })}/>
-				<TouchableHighlight onPress={this.onPressAdd}
-									style={styles.touchableStyle}>
-					<Text style={styles.buttonTextStyle}>add</Text>
-				</TouchableHighlight>
-				{this.state.todos.map((todo, i) => (
-					<View style={styles.todo}>
-						<Text key={i}
-							  style={styles.textStyle}>{todo}</Text>
-					</View>))
-				}
+				<Switch/>
+				<View style={styles.form}>
+					<TextInput
+						style={styles.input}
+						value={this.state.newTodo}
+						onChangeText={(text) => this.setState({ newTodo: text })}/>
+					<TouchableOpacity onPress={this.onPressAdd}
+									  style={styles.button}>
+						<Text style={styles.buttonText}>add</Text>
+					</TouchableOpacity>
+				</View>
+				<View style={styles.todos}>
+					{this.state.todos.map((todo, i) => (
+						<View style={styles.todo}>
+							<Text key={i}
+								  style={styles.todoText}>{todo}</Text>
+						</View>))
+					}
+				</View>
 			</View>
 		);
 	}
@@ -63,46 +68,45 @@ export default Todo;
 
 
 const styles = StyleSheet.create({
-	container      :
+	container:
 		{
 			flex   : 1,
 			padding: 20
 		},
-	textInput      :
+	input    :
 		{
-			fontSize    : 24,
-			marginBottom: 20
-			// width   : 300
+			fontSize: 24,
+			flex    : 0.7
 		},
-	textStyle      :
+	textStyle:
 		{
 			// fontSize: 18
 		},
-	buttonTextStyle:
+	button   :
 		{
-			alignItems: 'center',
-			// fontSize  : 24,
-			// fontWeight: 'bold'
-		},
-	touchableStyle :
-		{
-			borderWidth   : 1,
-			justifyContent: 'center',
-			alignItems    : 'center',
-			borderColor   : 'blue',
+			flex          : 0.3,
 			height        : 50,
-			width         : 50
+			borderColor   : 'blue',
+			borderWidth   : 1,
+			borderRadius  : 3,
+			justifyContent: 'center',
+			alignItems    : 'center'
 		},
-	form           :
+	form     :
 		{
-			flexDirection: 'row',
-			marginBottom : 60
+			flexDirection: 'row'
 		},
-	todo           :
+	todos    : {
+		marginTop: 60
+	},
+	todo     :
 		{
-			// borderWidth      : 1,
-			// borderColor      : 'white',
-			// borderBottomColor: 'lightgrey'
-			// marginBottom     : 10,
+			marginBottom     : 10,
+			borderBottomWidth: 1,
+			borderBottomColor: 'lightgrey'
+		},
+	todoText :
+		{
+			fontSize: 24
 		}
 });

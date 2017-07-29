@@ -25,11 +25,25 @@ class Todo extends Component {
 		}
 	}
 
+
 	onPressAdd = () => {
-		this.setState({
-			todos  : [...this.state.todos, this.state.newTodo],
-			newTodo: ''
-		});
+		fetch({
+			method : 'post',
+			body   : {
+				name: this.state.newTodo
+			},
+			headers:
+				{
+					'Content-Type': 'application/json'
+				}
+		})
+			.then(res => res.json())
+			.then(data => {
+				this.setState({
+					todos  : [...this.state.todos, data],
+					newTodo: ''
+				});
+			});
 	};
 
 	/**
@@ -67,46 +81,47 @@ class Todo extends Component {
 export default Todo;
 
 
-const styles = StyleSheet.create({
-	container:
-		{
-			flex   : 1,
-			padding: 20
+const
+	styles = StyleSheet.create({
+		container:
+			{
+				// flex   : 1,
+				padding: 20
+			},
+		input    :
+			{
+				fontSize: 24,
+				flex    : 0.7
+			},
+		textStyle:
+			{
+				// fontSize: 18
+			},
+		button   :
+			{
+				flex          : 0.3,
+				height        : 50,
+				borderColor   : 'blue',
+				borderWidth   : 1,
+				borderRadius  : 3,
+				justifyContent: 'center',
+				alignItems    : 'center'
+			},
+		form     :
+			{
+				flexDirection: 'row'
+			},
+		todos    : {
+			marginTop: 60
 		},
-	input    :
-		{
-			fontSize: 24,
-			flex    : 0.7
-		},
-	textStyle:
-		{
-			// fontSize: 18
-		},
-	button   :
-		{
-			flex          : 0.3,
-			height        : 50,
-			borderColor   : 'blue',
-			borderWidth   : 1,
-			borderRadius  : 3,
-			justifyContent: 'center',
-			alignItems    : 'center'
-		},
-	form     :
-		{
-			flexDirection: 'row'
-		},
-	todos    : {
-		marginTop: 60
-	},
-	todo     :
-		{
-			marginBottom     : 10,
-			borderBottomWidth: 1,
-			borderBottomColor: 'lightgrey'
-		},
-	todoText :
-		{
-			fontSize: 24
-		}
-});
+		todo     :
+			{
+				marginBottom     : 10,
+				borderBottomWidth: 1,
+				borderBottomColor: 'lightgrey'
+			},
+		todoText :
+			{
+				fontSize: 24
+			}
+	});

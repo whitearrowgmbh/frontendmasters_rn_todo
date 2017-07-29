@@ -40,16 +40,14 @@ class Todo extends Component {
 	{
 		return (
 			<View style={styles.container}>
-				<View style={styles.form}>
-					<TextInput
-						style={styles.textInput}
-						value={this.state.newTodo}
-						onChangeText={(text) => this.setState({ newTodo: text })}/>
-					<TouchableHighlight onPress={this.onPressAdd}
-										style={styles.touchableStyle}>
-						<Text style={styles.buttonTextStyle}>add</Text>
-					</TouchableHighlight>
-				</View>
+				<TextInput
+					style={styles.textInput}
+					value={this.state.newTodo}
+					onChangeText={(text) => this.setState({ newTodo: text })}/>
+				<TouchableHighlight onPress={this.onPressAdd}
+									style={styles.touchableStyle}>
+					<Text style={styles.buttonTextStyle}>add</Text>
+				</TouchableHighlight>
 				{this.state.todos.map((todo, i) => (
 					<View style={styles.todo}>
 						<Text key={i}
@@ -72,18 +70,19 @@ const styles = StyleSheet.create({
 		},
 	textInput      :
 		{
-			fontSize: 24,
-			width   : 300
+			fontSize    : 24,
+			marginBottom: 20
+			// width   : 300
 		},
 	textStyle      :
 		{
-			fontSize: 18
+			// fontSize: 18
 		},
 	buttonTextStyle:
 		{
 			alignItems: 'center',
-			fontSize  : 24,
-			fontWeight: 'bold'
+			// fontSize  : 24,
+			// fontWeight: 'bold'
 		},
 	touchableStyle :
 		{
@@ -91,7 +90,8 @@ const styles = StyleSheet.create({
 			justifyContent: 'center',
 			alignItems    : 'center',
 			borderColor   : 'blue',
-			height        : 50
+			height        : 50,
+			width         : 50
 		},
 	form           :
 		{
@@ -100,11 +100,9 @@ const styles = StyleSheet.create({
 		},
 	todo           :
 		{
-			marginBottom     : 10,
-			borderWidth      : 1,
-			borderColor      : 'white',
-			borderBottomColor: 'lightgrey'
+			// borderWidth      : 1,
+			// borderColor      : 'white',
+			// borderBottomColor: 'lightgrey'
+			// marginBottom     : 10,
 		}
-
-
 });

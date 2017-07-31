@@ -27,8 +27,7 @@ class Todo extends Component {
 
 	componentWillMount()
 	{
-		// TODO: ersetzen mit der IP-Adresse des PC's
-		fetch('http://localhost:3000/todos', {
+		fetch('http://192.168.178.94:3000/todos', {
 			'Accept': 'application/json'
 		})
 			.then(res => res.json())
@@ -36,8 +35,8 @@ class Todo extends Component {
 	}
 
 	onPressAdd = () => {
-		fetch('http://localhost:3000/todos', {
-			method : 'post',
+		fetch('http://192.178.168.94:3000/todos', {
+			method : 'POST',
 			body   : JSON.stringify({ name: this.state.newTodo }),
 			headers:
 				{
@@ -99,7 +98,7 @@ const
 		input    :
 			{
 				fontSize: 24,
-				flex    : 0.7
+				flexGrow: 3
 			},
 		textStyle:
 			{
@@ -107,7 +106,7 @@ const
 			},
 		button   :
 			{
-				flex          : 0.3,
+				flexGrow      : 1,
 				height        : 50,
 				borderColor   : 'blue',
 				borderWidth   : 1,

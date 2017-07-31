@@ -25,13 +25,20 @@ class Todo extends Component {
 		}
 	}
 
+	componentWillMount()
+	{
+		// TODO: ersetzen mit der IP-Adresse des PC's
+		fetch('http://localhost:3000/todos', {
+			'Accept': 'application/json'
+		})
+			.then(res => res.json())
+			.then(todos => this.setState({ todos }));
+	}
 
 	onPressAdd = () => {
-		fetch({
+		fetch('http://localhost:3000/todos', {
 			method : 'post',
-			body   : {
-				name: this.state.newTodo
-			},
+			body   : JSON.stringify({ name: this.state.newTodo }),
 			headers:
 				{
 					'Content-Type': 'application/json'
@@ -44,6 +51,7 @@ class Todo extends Component {
 					newTodo: ''
 				});
 			});
+
 	};
 
 	/**

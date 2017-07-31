@@ -28,23 +28,31 @@ class Todo extends Component {
 	componentWillMount()
 	{
 		fetch('http://192.168.178.94:3000/todos', {
-			'Accept': 'application/json'
+			method : 'GET',
+			headers: {
+				'Accept'      : 'application/json',
+				'Content-Type': 'application/json'
+			}
 		})
 			.then(res => res.json())
 			.then(todos => this.setState({ todos }));
 	}
 
 	onPressAdd = () => {
+		console.log(this.state.newTodo);
+
 		fetch('http://192.178.168.94:3000/todos', {
-			method : 'POST',
+			method : 'post',
 			body   : JSON.stringify({ name: this.state.newTodo }),
 			headers:
 				{
-					'Content-Type': 'application/json'
+					'Content-Type': 'application/json',
+					'Accept'      : 'application/json'
 				}
 		})
 			.then(res => res.json())
 			.then(data => {
+				console.log(data);
 				this.setState({
 					todos  : [...this.state.todos, data],
 					newTodo: ''
@@ -61,7 +69,6 @@ class Todo extends Component {
 	{
 		return (
 			<View style={styles.container}>
-				<Switch/>
 				<View style={styles.form}>
 					<TextInput
 						style={styles.input}
@@ -73,10 +80,12 @@ class Todo extends Component {
 					</TouchableOpacity>
 				</View>
 				<View style={styles.todos}>
-					{this.state.todos.map((todo, i) => (
-						<View style={styles.todo}>
-							<Text key={i}
-								  style={styles.todoText}>{todo}</Text>
+					{this.state.todos.map(todo => (
+						<View key={todo.id}
+							  style={styles.todo}>
+							<Text
+								style={styles.todoText}>{todo.name}
+							</Text>
 						</View>))
 					}
 				</View>
@@ -92,13 +101,15 @@ const
 	styles = StyleSheet.create({
 		container:
 			{
-				// flex   : 1,
-				padding: 20
+				width         : 300,
+				flex          : 1,
+				padding       : 20,
+				justifyContent: 'space-around'
 			},
 		input    :
 			{
 				fontSize: 24,
-				flexGrow: 3
+				flex    : 3
 			},
 		textStyle:
 			{
@@ -106,7 +117,7 @@ const
 			},
 		button   :
 			{
-				flexGrow      : 1,
+				flex          : 1,
 				height        : 50,
 				borderColor   : 'blue',
 				borderWidth   : 1,

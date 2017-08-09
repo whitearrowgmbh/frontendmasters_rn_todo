@@ -3,13 +3,10 @@ import {
 	Text,
 	View,
 	TextInput,
-	TouchableHighlight,
 	Dimensions,
-	StyleSheet, Switch, TouchableOpacity
+	StyleSheet, TouchableOpacity, Switch
 } from 'react-native';
 
-
-const { height, width } = Dimensions.get('window');
 
 class Todo extends Component {
 	/**
@@ -18,128 +15,94 @@ class Todo extends Component {
 	constructor()
 	{
 		super();
-
 		this.state = {
 			todos  : [],
 			newTodo: ''
 		}
 	}
 
-	componentWillMount()
+	handleChange(text)
 	{
-		fetch('http://192.168.178.94:3000/todos', {
-			method : 'GET',
-			headers: {
-				'Accept'      : 'application/json',
-				'Content-Type': 'application/json'
-			}
-		})
-			.then(res => res.json())
-			.then(todos => this.setState({ todos }));
+		this.setState({ newTodo: text });
 	}
 
-	onPressAdd = () => {
-		console.log(this.state.newTodo);
+	handlePress()
+	{
+		const todos = [...this.state.todos, this.state.newTodo];
+		this.setState({ todos, newTodo: '' });
+	}
 
-		fetch('http://192.178.168.94:3000/todos', {
-			method : 'post',
-			body   : JSON.stringify({ name: this.state.newTodo }),
-			headers:
-				{
-					'Content-Type': 'application/json',
-					'Accept'      : 'application/json'
-				}
-		})
-			.then(res => res.json())
-			.then(data => {
-				console.log(data);
-				this.setState({
-					todos  : [...this.state.todos, data],
-					newTodo: ''
-				});
-			});
-
-	};
-
-	/**
-	 * Render the Component the
-	 * @returns {XML}
-	 */
 	render()
 	{
 		return (
 			<View style={styles.container}>
-				<View style={styles.form}>
+				<View style={styles.InputSection}>
 					<TextInput
-						style={styles.input}
+						style={styles.text_input}
+						placeholder="Enter Todo"
 						value={this.state.newTodo}
-						onChangeText={(text) => this.setState({ newTodo: text })}/>
-					<TouchableOpacity onPress={this.onPressAdd}
-									  style={styles.button}>
-						<Text style={styles.buttonText}>add</Text>
+						onChangeText={this.handleChange.bind(this)}
+					/>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={this.handlePress.bind(this)}>
+						<Text style={styles.buttonText}>make</Text>
 					</TouchableOpacity>
 				</View>
-				<View style={styles.todos}>
-					{this.state.todos.map(todo => (
-						<View key={todo.id}
+				<View style={styles.ListSection}>
+					{this.state.todos.map((todo, i) => (
+						<View key={i}
 							  style={styles.todo}>
-							<Text
-								style={styles.todoText}>{todo.name}
-							</Text>
-						</View>))
-					}
+							<Text style={styles.todoText}>{todo}</Text>
+						</View>
+					))}
 				</View>
 			</View>
-		);
+		)
 	}
 }
 
 export default Todo;
 
 
-const
-	styles = StyleSheet.create({
-		container:
-			{
-				width         : 300,
-				flex          : 1,
-				padding       : 20,
-				justifyContent: 'space-around'
-			},
-		input    :
-			{
-				fontSize: 24,
-				flex    : 3
-			},
-		textStyle:
-			{
-				// fontSize: 18
-			},
-		button   :
-			{
-				flex          : 1,
-				height        : 50,
-				borderColor   : 'blue',
-				borderWidth   : 1,
-				borderRadius  : 3,
-				justifyContent: 'center',
-				alignItems    : 'center'
-			},
-		form     :
-			{
-				flexDirection: 'row'
-			},
-		todos    : {
-			marginTop: 60
-		},
-		todo     :
-			{
-				marginBottom     : 10,
-				borderBottomWidth: 1,
-				borderBottomColor: 'lightgrey'
-			},
-		todoText :
-			{
-				fontSize: 24
-			}
-	});
+const styles = StyleSheet.create({
+	container   : {
+		flex         : 1,
+		flexDirection: 'column',
+		width        : 300
+	},
+	InputSection: {
+		flex         : 1,
+		flexDirection: 'row',
+		alignItems   : 'flex-end'
+	},
+	text_input  : {
+		flex    : 4,
+		fontSize: 24
+	},
+	button      : {
+		flex          : 1,
+		borderWidth   : 1,
+		height        : 50,
+		borderColor   : 'blue',
+		borderRadius  : 3,
+		justifyContent: 'center',
+		alignItems    : 'center'
+	},
+	buttonText  : {
+		fontSize  : 24,
+		fontWeight: 'bold'
+	},
+	ListSection : {
+		marginTop: 60,
+		flex     : 5,
+	},
+	todo        : {
+		marginBottom     : 10,
+		borderBottomWidth: 1,
+		borderBottomColor: 'lightgrey'
+	},
+	todoText    : {
+		fontSize: 24
+	}
+});
